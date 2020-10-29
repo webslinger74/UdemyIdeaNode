@@ -10,8 +10,24 @@ notesRouter.get('/', async (req, res) => {
 });
 
 notesRouter.get('/list', async (req, res) => {
+    console.log(req.query, "query param?");
+    const queryObj = { ...req.query };   // this will create a new object and not a reference to same object.
+    const excludeFields = ['page', 'sort', 'limit', 'fields'];
+    excludeFields.forEach((el) => {
+        delete queryObj[el];
+    });
+
+    // advanced filtering  to allow query to include greater than or less than a value  remember add duration[gte]=5 in postman
+    let queryString = json.stringify(queryObj);
+    queryString =  queryString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
+    console.log(JSON.parse(queryString));
+
     try {
-        const listOfDocuments =  await Note.find({});
+        const query = Note.find(
+            JSON.parse(queryString)    // this works as is an object in  ie in {} and returns all results if no query is provided!
+        );
+
+        const listOfDocuments =  await query;  // awaiting here so can chain some sorting and pagination
             res.render('list.html', { "notes" : listOfDocuments });
  } catch (error) {
         console.log(error);
