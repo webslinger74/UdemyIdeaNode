@@ -15,13 +15,4 @@ const noteSchema = new mongoose.Schema({
 const Note = mongoose.model('Note', noteSchema);
 
 
-// const testNote =  new Note({
-//     name:'stevens note',
-//     note:'the first job ever is the hardest or is it'
-// });
-
-// testNote.save().then((doc)=> {
-//     console.log(doc);
-// })
-
 module.exports = Note;

@@ -1,77 +1,56 @@
 const express = require('express');
 const notesRouter = express.Router();
-const fs = require('fs');
 const path = require('path')
 console.log(path.join(__dirname, '../data/data.json'));  // testing to get correct path to data for file writing using path tool
 const Note = require('../models/noteModel');  // importing the model for Note to connect to Mongo DB
 
-
-//remember only use Sync style in top level code, not event loop callbacks
-const myData = fs.readFileSync(__dirname + '/../data/data.json', (err) => {
-    console.log("error reading file!", myData);
-})
-const myDataObj = JSON.parse(myData);
-const arr = [];
-arr.push(myDataObj);
-const arrinner = arr[0];
 
 notesRouter.get('/', async (req, res) => {
     res.render('index.html')
 });
 
 notesRouter.get('/list', async (req, res) => {
-    Note.find({}).then((doc) => {
-        console.log(doc);
-        res.render('list.html', { "notes" : doc });
-    })
-        // res.render('list.html', { "notes" : arrinner}     
+    try {
+        const listOfDocuments =  await Note.find({});
+            res.render('list.html', { "notes" : listOfDocuments });
+ } catch (error) {
+        console.log(error);
+    }  
 });
 
 notesRouter.post('/update', async (req, res) => {
-    arrinner.push({id:arrinner.length,
-                name:req.body.name,
-                note:req.body.note});
-    fs.writeFile(path.join(__dirname, '../data/data.json'), JSON.stringify(arrinner), () => {
-    res.status(200)
-    .send(JSON.stringify(arrinner));
-    })
-});
-
-notesRouter.post('/:id', async (req, res) => { 
-    const id = req.params.id;
-    res.status(200)
-    .json({
-        data:JSON.stringify(myDataObj[0]),
-        id:id
-    })
-})
-
-notesRouter.post('/', async (req, res) => { 
-    res.status(200)
-    .json({
-        data:JSON.stringify(myDataObj[0])
-    })
+  try {
+     await Note.create({name:req.body.name, note:req.body.note});
+     const findDocs = await Note.find({});
+            res.render('list.html', { "notes" : findDocs});
+  } catch (error) {
+      console.log("there was an error ", error);
+  }  
 })
 
 notesRouter.put('/update/:id', async (req, res) => {
     const id = req.params.id;
     const body = req.body;
-    const index = arrinner.findIndex((obj) => obj.id == id);
-    arrinner[index] = req.body;
-    fs.writeFile(path.join(__dirname, '../data/data.json'), JSON.stringify(arrinner), () => {
-        res.status(200)
-        .send("it worked");
-        })
-})
+    try {
+        await Note.findByIdAndUpdate(id, {name:body.name, note:body.note},{new:true},(err, response) => {
+            console.log('response yes', err);
+        }); 
+        const allDocs = await Note.find({});
+            res.render('list.html', { "notes" : allDocs});
+    } catch(err) {
+        console.log(err);
+    }
+});
+   
 
 notesRouter.delete('/:id', async (req, res) => {
-    const id = req.params.id;
-    const index = arrinner.findIndex((obj) => obj.id == id);
-   arrinner.splice(index, 1);
-    fs.writeFile(path.join(__dirname, '../data/data.json'), JSON.stringify(arrinner), () => {
-        res.status(200)
-        .send("it worked");
-        })
+    console.log(req.params.id);
+    await Note.deleteOne({_id:req.params.id});
+    await Note.find({}).then((doc) => {
+        res.render('list.html', { "notes" : doc});
+     }).catch(err => {
+         console.log(err);
+     })
 })
 
 
