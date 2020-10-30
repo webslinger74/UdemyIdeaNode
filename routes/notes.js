@@ -9,6 +9,7 @@ notesRouter.get('/', async (req, res) => {
     res.render('index.html')
 });
 
+// ADDED SOME FILTERING, ADVANCED FILTERING AND SORTING TO THIS ROUTE THAT GET ALL OBJECTS BACK ////////
 notesRouter.get('/list', async (req, res) => {
     console.log(req.query, "query param?");
     const queryObj = { ...req.query };   // this will create a new object and not a reference to same object.
