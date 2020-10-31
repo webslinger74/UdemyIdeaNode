@@ -1,17 +1,18 @@
-const mongoose = require('mongoose');
 require('dotenv').config();
 const fs = require('fs');
 const Note = require('../models/noteModel');
 const path = require('path')
  /// console.log(path.join(__dirname, '../data/data.json')); 
 console.log(path.join(__dirname, './data.json'));
-
+const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser:true,
     useCreateIndex:true,
     useFindAndModify:false
 }).then(()=> {
     console.log('db connection successful!');
+}).catch(error => {
+    console.log(error);
 })
 
 

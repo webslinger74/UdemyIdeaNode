@@ -5,6 +5,10 @@ const noteSchema = new mongoose.Schema({
         type:String,
         required: [true, 'A note must have a name']
     },
+    cost: {
+        type:Number,
+        required: [true, "A cost must be provided for the job"]
+    },
     note: {
         type:String,
         required:[true, 'A note must have a description'],
