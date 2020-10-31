@@ -19,11 +19,9 @@ const testAPromise = (x) => {
 
 testAPromise(1)
   .then((value) => {
-    // eslint-disable-next-line no-console
     console.log(value);
   })
   .catch((err) => {
-    // eslint-disable-next-line no-console
     console.log(err);
   });
 
