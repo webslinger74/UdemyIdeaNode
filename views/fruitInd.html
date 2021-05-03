@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>Steven's Fruits</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Core theme CSS (includes Bootstrap)-->
+         <link href="/css/fruits.css" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        {{#fruitData}}
+      <div class="title">Your specific Fruit - {{FruitName}}</div>
+      {{/fruitData}}
+       <button class="inputAnchor"><a href="/fruits">View Your Fruits</a></button>
+      <button class="inputAnchor"><a href="/fruits/input">Input a Fruit</a></button>
+ <div class="container">
+          {{#fruitData}}
+   <div class="card" style="width: 18rem;">
+    <img src="/{{FruitName}}.png" class="card-img-top" alt="...">
+     <div class="card-body">
+      <h5 class="card-title">{{FruitName}}</h5>
+      <p class="card-text">{{Description}}</p>
+      <p class="card-text">{{Price}}</p>
+        <form action="/fruits/delete" method="post">
+         <input type="hidden" name="id" value="{{id}}" />
+         <input class="btn btn-primary" type="submit">Delete</button>
+        </form>
+    </div>
+  </div>
+
+        {{/fruitData}}
+       </div>
+        <!-- Copyright Section-->
+        <div class="copyright py-4 text-center text-white">
+            <div class="container"><small>Copyright © Team Webster 2021</small></div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <!-- Contact form JS-->
+        <script src="assets/mail/jqBootstrapValidation.js"></script>
+        <script src="assets/mail/contact_me.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js">
+        
+        </script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    </body>
+</html>

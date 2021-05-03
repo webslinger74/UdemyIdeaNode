@@ -24,7 +24,7 @@ notesRouter.get('/list', async (req, res) => {
   let queryString = JSON.stringify(queryObj);
   queryString = queryString.replace(
     /\b(gte|gt|lte|lt)\b/g,
-    (match) => `$${match}`
+    (match) => `$${match}` // this adds the $ symbol required to make query to mongodb
   );
   console.log(JSON.parse(queryString));
 
