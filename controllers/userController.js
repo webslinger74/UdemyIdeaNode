@@ -1,4 +1,5 @@
 const User = require('../models/usersModel');
+const { signJwtToken, verifyJwtToken } = require('../authentication/jwt');
 const {
   hashPassword,
   verifyPassword,
@@ -53,6 +54,7 @@ exports.postLoginUserDetails = () => {
             console.log(passData, 'passData');
             if (passData === true) {
               console.log('this is so trueeeeee!');
+              const token = signJwtToken(email);
               res.render('fruits.html');
             } else {
               const filtered = {
