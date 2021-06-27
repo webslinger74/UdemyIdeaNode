@@ -1,5 +1,8 @@
 const User = require('../models/usersModel');
-const { hashPassword } = require('../authentication/hashPasswords');
+const {
+  hashPassword,
+  verifyPassword,
+} = require('../authentication/hashPasswords');
 
 exports.getCreateUserPage = () => {
   return async (req, res) => {
@@ -18,11 +21,15 @@ exports.postCreateUserDetails = () => {
       signUpDetails.password = hashedPassword;
       const user = await User.create(signUpDetails);
       console.log(user);
+      res.render('loginUser.html');
     } catch (error) {
       console.log(error);
     }
   };
 };
+
+// async await seems to just be used when you call a method that returns a promise
+// wrap it in a try catch and the function is is in is async.
 
 exports.getLoginPage = () => {
   return async (req, res) => {
@@ -33,7 +40,31 @@ exports.getLoginPage = () => {
 exports.postLoginUserDetails = () => {
   return async (req, res) => {
     const loginDetails = req.body;
+    const { email, password } = loginDetails;
     console.log(loginDetails);
-    res.render('fruits.html');
+    User.findOne({ email: email }, (err, response) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('ok');
+        console.log(response.password, 'the user');
+        verifyPassword(password, response.password)
+          .then((passData) => {
+            console.log(passData, 'passData');
+            if (passData === true) {
+              console.log('this is so trueeeeee!');
+              res.render('fruits.html');
+            } else {
+              const filtered = {
+                error: 'You have entered the incorrect details try again!',
+              };
+              res.render('loginUser.html', { fruitData: filtered });
+            }
+          })
+          .catch((errPass) => {
+            console.log(errPass);
+          });
+      }
+    });
   };
 };

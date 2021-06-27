@@ -57,12 +57,9 @@ exports.addNewFruit = () => {
 
 exports.getIndividualFruitPage = () => {
   return async (req, res) => {
-    // console.log(req.params, 'the param of the product hopefully');
     fileReader('./data/fruitData.json').then(
       (dataReturned) => {
         dataReturned = JSON.parse(dataReturned);
-        // console.log(dataReturned, 'the data in delete');
-        // eslint-disable-next-line eqeqeq
         const filtered = dataReturned.filter(
           // eslint-disable-next-line eqeqeq
           (item) => item.id == req.params.id

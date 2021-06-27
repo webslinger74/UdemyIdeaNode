@@ -22,6 +22,10 @@
             <div class="login-container">
             <a href="/users/create">Not Got An Account?</a>
             <h1 class="login-container">Login to your Fruit Account </h1>
+       
+        {{#fruitData}}
+        <p>{{error}}</p>
+        {{/fruitData}}
 
         <form class="login-container" action="/users/login" method="post">
           <input class="loginInput" type="text" name="email" placeholder="Enter an email address" />
